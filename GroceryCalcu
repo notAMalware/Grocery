@@ -7,7 +7,7 @@ namespace GroceryCalculator
         public static void Main(string[] args)
         {
             string[] products = { "APPLE", "BANANA", "MILK", "CHICKEN", "JUICE", "EGG", "BREAD", "RICE", "SALT", "PORK" };
-            double[] itemPrice = { 10.00, 15.00, 20.00, 25.00, 5.00, 5.00, 10.00, 15.00, 1.00, 20.00};
+            double[] itemPrice = { 9.25, 14.50, 20.20, 25.30, 5.30, 5.25, 9.50, 14.99, 0.99, 19.99};
             double[] itemQuantity = { 50, 60, 70, 50, 25, 100, 50, 100, 50, 100 };
 
             string item, answer;
@@ -37,7 +37,7 @@ namespace GroceryCalculator
                         Console.WriteLine($"{pro,-15}{itemsPrice,-10}{itemsQuantity}");
                     }
                     Console.WriteLine("__________________________________________");
-                    Console.Write("\n*LIVESTOCK ARE BY KILOGRAM(kg)*\n");
+                    Console.Write("\n*LIVESTOCK AND RICE ARE BY KILOGRAM(kg)*\n");
                     Console.Write("Enter the item name to purchase: ");
                     item = Console.ReadLine().ToUpper().Trim(); //ipadako ang giinput
                     bool found = false;
@@ -98,7 +98,7 @@ namespace GroceryCalculator
                     Console.WriteLine("An error occurred: " + e.Message);
                 }
 
-                Console.Write("\nDo you want to enter another item? (yes/no) ");
+                Console.Write("\nDo you want to enter another item? (yes/no): ");
                 answer = Console.ReadLine().ToLower().Trim();
             } while (answer == "yes");
 
