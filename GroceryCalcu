@@ -70,6 +70,7 @@ namespace GroceryCalculator
                                         totalQuantity = itemQuantity[i] - quantity;
                                         itemQuantity[i] = totalQuantity;
                                         itemCost = price * quantity;
+                                        itemCost = Math.Round(itemCost,2);
                                         totalCost += itemCost;
 
                                         receiptDetails += $"{quantity}x\t\t{item}\t\t${price}\t\t${itemCost}\n";
@@ -114,8 +115,10 @@ namespace GroceryCalculator
             {
                 discountAmount = totalCost * 0.20;
             }
-
+            totalCost = Math.Round(totalCost,2);
+            discountAmount = Math.Round(discountAmount,2);
             finalAmount = totalCost - discountAmount;
+            finalAmount = Math.Round(finalAmount,2);
 
             // Display the final receipt
             Console.WriteLine();
