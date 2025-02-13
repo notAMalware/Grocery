@@ -14,6 +14,7 @@ namespace GroceryCalculator
             double price, quantity, totalQuantity;
             double totalCost = 0, discountAmount = 0, finalAmount, itemCost;
             string receiptDetails = "";
+            int discount = 0;
 
 
             int maxLength = Math.Max(products.Length, Math.Max(itemPrice.Length, itemQuantity.Length));
@@ -24,7 +25,7 @@ namespace GroceryCalculator
                 Console.WriteLine("\n__________________________________________");
                 Console.WriteLine("\tLIST OF PRODUCTS");
                 Console.WriteLine("__________________________________________");
-                Console.WriteLine("Products".PadRight(15) + "Price".PadRight(10) + "Quantity");
+                Console.WriteLine("Products".PadRight(15) + "Price".PadRight(10) + "Stock");
                 Console.WriteLine("__________________________________________");
                 try
                 {
@@ -46,42 +47,28 @@ namespace GroceryCalculator
                         if (products[i].Equals(item, StringComparison.OrdinalIgnoreCase))
                         {
                             Console.WriteLine("Product FOUND");
-                            //price = itemPrice[i]; //automatic kwaon ang price 
-                            found = true;
-                            //Console.WriteLine($"Price of the item: ${price}");
-                            Console.Write("\nEnter the price of the item: ");
-                            price = Convert.ToDouble(Console.ReadLine().Trim());
-                            bool correct = false;
-                            for (int j = 0; j < itemPrice.Length; j++)
-                            {
-                                if (itemPrice[i].Equals(price))
-                                {
-                                    correct = true;
-                                    Console.Write("Enter the quantity: ");
-                                    quantity = Convert.ToDouble(Console.ReadLine());
+                            price = itemPrice[i]; //automatic kwaon ang price 
+                            Console.WriteLine($"Price of the item: ${price}");
+                            
+                            Console.Write("Enter the quantity: ");
+                            quantity = Convert.ToDouble(Console.ReadLine());
 
-                                    //iminus ang quantity
-                                    if (quantity > itemQuantity[i])
-                                    {
-                                        Console.WriteLine("**NOT ENOUGH STOCK AVAILABLE**");
-                                    }
-                                    else
-                                    {
-                                        totalQuantity = itemQuantity[i] - quantity;
-                                        itemQuantity[i] = totalQuantity;
-                                        itemCost = price * quantity;
-                                        itemCost = Math.Round(itemCost,2);
-                                        totalCost += itemCost;
-
-                                        receiptDetails += $"{quantity}x\t\t{item}\t\t${price}\t\t${itemCost}\n";
-                                    }
-                                    break;
-                                }
-                            }
-                            if (!correct)
+                            //iminus ang quantity
+                            if (quantity > itemQuantity[i])
                             {
-                                Console.WriteLine("**INCORRECT PRICE**");
-                            }
+                                Console.WriteLine("**NOT ENOUGH STOCK AVAILABLE**");
+                             }
+                             else
+                             {
+                                totalQuantity = itemQuantity[i] - quantity;
+                                itemQuantity[i] = totalQuantity;
+                                itemCost = price * quantity;
+                                itemCost = Math.Round(itemCost,2);
+                                totalCost += itemCost;
+
+                                receiptDetails += $"{quantity}x\t\t{item}\t\t${price}\t\t${itemCost}\n";
+                             }
+                             break;
 
                         }
                     }
@@ -105,14 +92,17 @@ namespace GroceryCalculator
 
             if (totalCost > 100 && totalCost <= 200)
             {
+                discount = 10;
                 discountAmount = totalCost * 0.10;
             }
             else if (totalCost > 200 && totalCost <= 500)
             {
+                discount = 15;
                 discountAmount = totalCost * 0.15;
             }
             else if (totalCost > 500)
             {
+                discount = 20;
                 discountAmount = totalCost * 0.20;
             }
             totalCost = Math.Round(totalCost,2);
@@ -122,20 +112,21 @@ namespace GroceryCalculator
 
             // Display the final receipt
             Console.WriteLine();
-            Console.WriteLine("______________________________________________________________________");
+            Console.WriteLine("__________________________________________________________________________");
             Console.WriteLine("OFFICIAL RECEIPT".PadLeft(36));
-            Console.WriteLine("______________________________________________________________________");
+            Console.WriteLine("__________________________________________________________________________");
             Console.WriteLine("Grocery Store".PadLeft(34));
-            Console.WriteLine("______________________________________________________________________");
+            Console.WriteLine("__________________________________________________________________________");
             Console.WriteLine("Quantity\tProduct\t\tPrice\t\tTotal Price");
-            Console.WriteLine("______________________________________________________________________\n");
+            Console.WriteLine("__________________________________________________________________________\n");
             Console.WriteLine(receiptDetails);
-            Console.WriteLine("______________________________________________________________________");
+            Console.WriteLine("__________________________________________________________________________");
             Console.WriteLine($"\t\t\t\t\t\tTOTAL COST: ${totalCost}");
-            Console.WriteLine($"\t\t\t\t\t\tDISCOUNT: ${discountAmount}");
-            Console.WriteLine("\t\t\t\t\t\t______________________");
+            Console.WriteLine($"\t\t\t\t\t\tDISCOUNT: {discount}%");
+            Console.WriteLine($"\t\t\t\t\t\tDISCOUNTED AMOUNT: ${discountAmount}");
+            Console.WriteLine("\t\t\t\t\t\t__________________________");
             Console.WriteLine($"\t\t\t\t\t\tFINAL AMOUNT: ${finalAmount}");
-            Console.WriteLine("______________________________________________________________________");
+            Console.WriteLine("__________________________________________________________________________");
 
         }
     }
