@@ -1,0 +1,133 @@
+using System;
+
+namespace GroceryCalculator
+{
+    public class GroceryCalcu
+    {
+        public static void Main(string[] args)
+        {
+            string[] products = { "APPLE", "BANANA", "MILK", "CHICKEN", "JUICE", "EGG", "BREAD", "RICE", "SALT", "PORK" };
+            double[] itemPrice = { 9.25, 14.50, 20.20, 25.30, 5.30, 5.25, 9.50, 14.99, 0.99, 19.99};
+            double[] itemQuantity = { 50, 60, 70, 50, 25, 100, 50, 100, 50, 100 };
+
+            string item, answer;
+            double price, quantity, totalQuantity;
+            double totalCost = 0, discountAmount = 0, finalAmount, itemCost;
+            string receiptDetails = "";
+            int discount = 0;
+
+
+            int maxLength = Math.Max(products.Length, Math.Max(itemPrice.Length, itemQuantity.Length));
+
+
+            do
+            {
+                Console.WriteLine("\n__________________________________________");
+                Console.WriteLine("\tLIST OF PRODUCTS");
+                Console.WriteLine("__________________________________________");
+                Console.WriteLine("Products".PadRight(15) + "Price".PadRight(10) + "Stock");
+                Console.WriteLine("__________________________________________");
+                try
+                {
+                    for (int i = 0; i < maxLength; i++)
+                    {
+                        string pro = i < products.Length ? products[i] : " ";
+                        double itemsPrice = i < itemPrice.Length ? itemPrice[i] : 0;
+                        double itemsQuantity = i < itemQuantity.Length ? itemQuantity[i] : 0;
+
+                        Console.WriteLine($"{pro,-15}{itemsPrice,-10}{itemsQuantity}");
+                    }
+                    Console.WriteLine("__________________________________________");
+                    Console.Write("\n*LIVESTOCK AND RICE ARE BY KILOGRAM(kg)*\n");
+                    Console.Write("Enter the item name to purchase: ");
+                    item = Console.ReadLine().ToUpper().Trim(); //ipadako ang giinput
+                    bool found = false;
+                    for (int i = 0; i < products.Length; i++)
+                    {
+                        if (products[i].Equals(item, StringComparison.OrdinalIgnoreCase))
+                        {
+                            Console.WriteLine("Product FOUND");
+                            price = itemPrice[i]; //automatic kwaon ang price 
+                            Console.WriteLine($"Price of the item: ${price}");
+                            
+                            Console.Write("Enter the quantity: ");
+                            quantity = Convert.ToDouble(Console.ReadLine());
+
+                            //iminus ang quantity
+                            if (quantity > itemQuantity[i])
+                            {
+                                Console.WriteLine("**NOT ENOUGH STOCK AVAILABLE**");
+                             }
+                             else
+                             {
+                                totalQuantity = itemQuantity[i] - quantity;
+                                itemQuantity[i] = totalQuantity;
+                                itemCost = price * quantity;
+                                itemCost = Math.Round(itemCost,2);
+                                totalCost += itemCost;
+
+                                receiptDetails += $"{quantity}x\t\t{item}\t\t${price}\t\t${itemCost}\n";
+                             }
+                             break;
+
+                        }
+                    }
+                    if (!found)
+                    {
+                        Console.WriteLine("**PRODUCT NOT FOUND**");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("**Invalid input! Please enter numeric values for price and quantity.**");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("An error occurred: " + e.Message);
+                }
+
+                Console.Write("\nDo you want to enter another item? (yes/no): ");
+                answer = Console.ReadLine().ToLower().Trim();
+            } while (answer == "yes");
+
+            if (totalCost > 100 && totalCost <= 200)
+            {
+                discount = 10;
+                discountAmount = totalCost * 0.10;
+            }
+            else if (totalCost > 200 && totalCost <= 500)
+            {
+                discount = 15;
+                discountAmount = totalCost * 0.15;
+            }
+            else if (totalCost > 500)
+            {
+                discount = 20;
+                discountAmount = totalCost * 0.20;
+            }
+            totalCost = Math.Round(totalCost,2);
+            discountAmount = Math.Round(discountAmount,2);
+            finalAmount = totalCost - discountAmount;
+            finalAmount = Math.Round(finalAmount,2);
+
+            // Display the final receipt
+            Console.WriteLine();
+            Console.WriteLine("__________________________________________________________________________");
+            Console.WriteLine("OFFICIAL RECEIPT".PadLeft(36));
+            Console.WriteLine("__________________________________________________________________________");
+            Console.WriteLine("Grocery Store".PadLeft(34));
+            Console.WriteLine("__________________________________________________________________________");
+            Console.WriteLine("Quantity\tProduct\t\tPrice\t\tTotal Price");
+            Console.WriteLine("__________________________________________________________________________\n");
+            Console.WriteLine(receiptDetails);
+            Console.WriteLine("__________________________________________________________________________");
+            Console.WriteLine($"\t\t\t\t\t\tTOTAL COST: ${totalCost}");
+            Console.WriteLine($"\t\t\t\t\t\tDISCOUNT: {discount}%");
+            Console.WriteLine($"\t\t\t\t\t\tDISCOUNTED AMOUNT: ${discountAmount}");
+            Console.WriteLine("\t\t\t\t\t\t__________________________");
+            Console.WriteLine($"\t\t\t\t\t\tFINAL AMOUNT: ${finalAmount}");
+            Console.WriteLine("__________________________________________________________________________");
+
+        }
+    }
+}
